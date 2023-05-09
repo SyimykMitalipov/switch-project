@@ -1,0 +1,17 @@
+.totalSum {
+    width: 400px;
+    background-color: #fbf5db;
+    height: 200px;
+    margin-top: 20px;
+    padding: 20px;
+    font-size: 14px;
+    position: absolute;
+    top: 65%;
+    right: 30%;
+    & span {
+        font-weight: 700;
+        font-size: 16px;
+        
+    }
+
+}
