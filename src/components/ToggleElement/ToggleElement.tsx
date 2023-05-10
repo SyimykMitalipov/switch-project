@@ -1,7 +1,7 @@
 import { useState } from "react";
 import classes from './ToggleElement.module.scss'
-import { PercentVariants } from "common/helpers";
-
+import { PercentVariants } from "common/helpers/totalsumHelper";
+import { classNames } from "common/helpers/classNames";
 
 const ToggleSwitch = ({ setTogglePit}: { setTogglePit: React.Dispatch<React.SetStateAction<PercentVariants>>}) => { 
 
@@ -15,17 +15,17 @@ const ToggleSwitch = ({ setTogglePit}: { setTogglePit: React.Dispatch<React.SetS
   };
 
   return (
-    <div className={classes.toggleWrapper}>
-      <span className={`${switchState ? classes['disabled'] : ''}`}>Указать с НДФЛ</span>
-      <label className={classes.toggle} htmlFor="checkboxId"> 
+    <div className={classNames(classes.toggleWrapper, {}, [])}>
+      <span className={classNames(classes.span, { [classes.disabled]: switchState }, [])}>Указать с НДФЛ</span>
+      <label className={classNames(classes.toggle, {},[])} htmlFor="checkboxId"> 
         <input 
           id="checkboxId" 
           type="checkbox" 
           checked={switchState}
           onChange={handleOnChange} />   
-          <span className={classes.slider} />
+          <span className={classNames(classes.slider, {}, [])} />
       </label>
-      <span className={`${!switchState ? classes['disabled'] : ''}`}>БЕЗ НДФЛ</span>
+      <span className={classNames(classes.span, { [classes.disabled]: !switchState }, [])}>БЕЗ НДФЛ</span>
     </div> 
   );
 }

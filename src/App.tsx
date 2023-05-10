@@ -1,12 +1,20 @@
 import { ChangeEvent, useState } from "react";
 import classes from './App.module.scss'
 import { RadioButton } from "./components/RadioButton";
-import { IRadioButton, options, CheckedVariant } from "common/constants";
+import { IRadioButton, options, CheckedVariant, VariantValue } from "common/constants";
 import { TotalSumComponent } from "components/TotalSumComponent";
 import ToggleElement from "components/ToggleElement/ToggleElement";
-import { PercentVariants } from "common/helpers";
+import { PercentVariants } from "common/helpers/totalsumHelper";
+import { classNames } from "common/helpers/classNames";
 
 
+
+type TextVariants = Record<VariantValue, string>
+
+const textVariants: TextVariants = { // константа чтобы не использовать тернарки
+  [CheckedVariant.HOUR]: 'В час',
+  [CheckedVariant.DAY]: 'В день',
+}
 
 const App = () => {
 
@@ -21,10 +29,8 @@ const App = () => {
   }
 
   return (
-    <div className={classes.wrapper}>
-
-      <div className={classes.radioGroup}>  
-
+    <div className={classNames(classes.wrapper ,{},[])}>
+      <div className={classNames(classes.radioGroup, {}, [])}>  
       <p>Сумма</p>
 
         {options.map((option: IRadioButton) => <label key={option.id}>
@@ -42,11 +48,9 @@ const App = () => {
         { selectedOption !== CheckedVariant.MROT && <ToggleElement  setTogglePit={setTogglePit} /> }
 
       {selectedOption !== CheckedVariant.MROT && 
-       <div className={classes.sumInput}>
+       <div className={classNames(classes.sumInput, {}, [])}>
         <input type="text" disabled value={selectedOption} />
-
-        <span>₽ {selectedOption === CheckedVariant.DAY ? 'в день' : selectedOption === CheckedVariant.HOUR ? 'в час' : ''}</span>
-
+        <span>₽ {textVariants[selectedOption]}</span>
       </div>}
 
       </div>

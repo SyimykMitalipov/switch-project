@@ -1,4 +1,3 @@
-
 export type PercentVariants = 'default' | 'pit' // pit = personal income tax = НДФЛ
 
 const percent = 0.13

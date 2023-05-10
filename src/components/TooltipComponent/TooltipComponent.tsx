@@ -1,32 +1,44 @@
-import {  useEffect, useRef, useState } from 'react'
-import classes from './TooltipComponent.module.scss'
+import { useEffect, useRef, useState } from 'react';
+import classes from './TooltipComponent.module.scss';
+import { classNames } from 'common/helpers/classNames';
 
 const TooltipComponent = () => {
-  
-    const [ visible, setVisible ] = useState<boolean>(false)
-
-    const tooltipRef = useRef(null);
+  const [visible, setVisible] = useState(false);
+  const tooltipRef = useRef(null);
 
   useEffect(() => {
-
-    window.addEventListener('click', (event: MouseEvent) => {
-      
-      if(tooltipRef.current && tooltipRef.current !== event.target as Node ) {
-        setVisible(false)
+    const handleClickOutside = (event: MouseEvent) => {
+      if (tooltipRef.current && tooltipRef.current !== event.target) {
+        setVisible(false);
       }
-    })
-  }, [ tooltipRef ])
-  return (
-    
-    <label className={classes.tooltipContainer}
-    onMouseEnter={() => setVisible(true)}
-    >   
-  <span ref={tooltipRef} onClick={() => setVisible(prev => !prev)} className='material-symbols-outlined'>{visible ? 'cancel': 'info'}</span>
-    {visible && <div className={classes.tooltip}>
-        <p>МРОТ - минимальная размер оплаты труда. Разный для разных регионов.</p>
-      </div>}
-    </label>
-  )
-}
+    };
 
-export default TooltipComponent
+    window.addEventListener('click', handleClickOutside);
+
+    return () => {
+      window.removeEventListener('click', handleClickOutside);
+    };
+  }, [tooltipRef]);
+
+  return (
+    <label
+      className={classNames(classes.tooltipContainer, {}, [])}
+      onMouseEnter={() => setVisible(true)}
+    >
+      <span
+        ref={tooltipRef}
+        onClick={() => setVisible(prev => !prev)}
+        className="material-symbols-outlined"
+      >
+        {visible ? 'cancel' : 'info'}
+      </span>
+      {visible && (
+        <div className={classNames(classes.tooltip, {}, [])}>
+          <p>МРОТ - минимальная размер оплаты труда. Разный для разных регионов.</p>
+        </div>
+      )}
+    </label>
+  );
+};
+
+export default TooltipComponent;
